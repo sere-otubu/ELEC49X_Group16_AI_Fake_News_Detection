@@ -1,1 +1,1 @@
-# ELEC49X_Group16_AI_Fake_News_Detection
+# ELEC498 Capstone Project - AI for Fake News Detection
