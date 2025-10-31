@@ -31,13 +31,13 @@ jobs:
           pip install ruff 
       
       - name: Login to Hugging Face Hub
-        # This step uses the secret you created in GitHub Settings
         run: |
           pip install huggingface_hub
-          # 1. Use the new 'hf auth login' command
-          # 2. Add the '--add-to-git-credential' flag to fix the warning
+          # 1. This is the new command to set up the credential helper
+          git config --global credential.helper store
+          
+          # 2. This command can now successfully save the token for git
           hf auth login --token ${{ secrets.HF_TOKEN }} --add-to-git-credential
       
       - name: Run linter
-        # Run ruff on the 'fine_tuning' folder where your scripts are
         run: ruff check fine_tuning/
