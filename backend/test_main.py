@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import patch, MagicMock
 
 # Import the 'app' object from your main.py file
-from .main import app
+from main import app
 
 # Create a TestClient instance
 client = TestClient(app)
