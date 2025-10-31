@@ -38,6 +38,11 @@ jobs:
           
           # 2. This command can now successfully save the token for git
           hf auth login --token ${{ secrets.HF_TOKEN }} --add-to-git-credential
+
+      - name: Login to Weights & Biases
+        run: |
+          pip install wandb
+          wandb login ${{ secrets.WANDB_API_KEY }}
       
       - name: Run linter
         run: ruff check fine_tuning/

@@ -1,4 +1,6 @@
 from datasets import load_dataset
+import torch
+import wandb
 from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
@@ -29,6 +31,16 @@ def login_to_huggingface():
         print("Please enter your Hugging Face token:")
         token = getpass()
         login(token=token)
+
+def login_to_wandb():
+    """Logs into Weights & Biases"""
+    token = os.environ.get('WANDB_API_KEY')
+    if token:
+        print("Logging in to Weights & Biases with WANDB_API_KEY environment variable...")
+        wandb.login(key=token)
+    else:
+        print("WANDB_API_KEY token is not found in .env file. Please add it.")
+        exit()
 
 def train_model():
     # --- 2. Load Data ---
@@ -91,6 +103,8 @@ def train_model():
     )
 
     # --- 8. Train! ---
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"--- Using device: {device} ---")
     print("Starting fine-tuning...")
     trainer.train()
 
@@ -106,6 +120,7 @@ def train_model():
 if __name__ == "__main__":
     try:
         login_to_huggingface()
+        login_to_wandb()
         train_model()
     except Exception as e:
         print(f"\nAn error occurred: {e}")
