@@ -67,11 +67,11 @@ def train_model():
     # --- 6. Set Training Arguments ---
     training_args = TrainingArguments(
         output_dir=OUTPUT_DIR,
-        eval_strategy="epoch",        # Use the older argument name
-        save_strategy="epoch",        # Use the older argument name
+        eval_strategy="epoch",
+        save_strategy="epoch",
         num_train_epochs=3,               
-        per_device_train_batch_size=8,    
-        per_device_eval_batch_size=8,
+        per_device_train_batch_size=4,    
+        per_device_eval_batch_size=2,
         learning_rate=5e-6,               
         load_best_model_at_end=True,      
         metric_for_best_model="f1",       

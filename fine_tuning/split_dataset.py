@@ -30,6 +30,11 @@ def split_data():
     print("Combining datasets...")
     df_combined = pd.concat([df_true, df_fake], ignore_index=True)
 
+    print(f"Original article count: {len(df_combined)}")
+    # Drop any articles that have the exact same text
+    df_combined.drop_duplicates(subset=['text'], inplace=True, keep='first')
+    print(f"De-duplicated article count: {len(df_combined)}")
+
     # We only need the 'text' and 'label' columns
     df_final = df_combined[['text', 'label']].dropna()
 
