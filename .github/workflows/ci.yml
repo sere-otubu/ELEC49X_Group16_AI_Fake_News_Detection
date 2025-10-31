@@ -1,7 +1,6 @@
-name: "Fine-Tuning CI"
+name: "Validate Training Scripts"
 
 on:
-  # Run this workflow on push or pull request to the fine-tuning branch
   push:
     branches:
       - fine-tuning
@@ -22,21 +21,22 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip' # Cache dependencies to speed up future runs
-          cache-dependency-path: requirements.txt # Path to your requirements file
+          cache: 'pip' 
+          cache-dependency-path: requirements.txt
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install ruff # Install the linter
+          pip install ruff 
       
       - name: Login to Hugging Face Hub
         # This step uses the secret you created in GitHub Settings
-        # It's safe and the token is never exposed in the logs
         run: |
           pip install huggingface_hub
-          huggingface-cli login --token ${{ secrets.HF_TOKEN }}
+          # 1. Use the new 'hf auth login' command
+          # 2. Add the '--add-to-git-credential' flag to fix the warning
+          hf auth login --token ${{ secrets.HF_TOKEN }} --add-to-git-credential
       
       - name: Run linter
         # Run ruff on the 'fine_tuning' folder where your scripts are
