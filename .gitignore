@@ -1,3 +1,2 @@
-venv
+.venv
 fine_tuning/.env
-fine_tuning/my_finetuned_model
